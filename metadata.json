@@ -1,0 +1,6 @@
+{
+  "name": "iMovies - Movie Ticket Booking Made Simple",
+  "description": "Full-stack MERN movie ticket booking platform with real-time seat selection, secure authentication, admin management, and demo checkout.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

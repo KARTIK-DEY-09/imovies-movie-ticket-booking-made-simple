@@ -1,0 +1,850 @@
+# MASTER PROMPT: IMOVIES — FULL-STACK MERN MOVIE TICKET BOOKING SYSTEM
+
+## 1. Project Overview
+
+Build a complete, functional, professional full-stack web application named **iMovies — Movie Ticket Booking Made Simple**.
+
+This is an individual college software engineering project. It must be a real working MERN stack application, not a static UI prototype or a frontend-only mockup.
+
+The project must be organized, secure, responsive, easy to run locally, ready for GitHub, and suitable for a college mentor to review and evaluate.
+
+Use the uploaded screenshots as the primary visual reference for the interface. Reproduce their dark navy cinema-themed design, red and pink accents, movie poster cards, compact navigation bars, and clean form layouts while improving responsiveness, readability, accessibility, and usability.
+
+Do not copy unrelated elements from the screenshot website. Build an original implementation of the iMovies application.
+
+## 2. Mandatory Technology Stack
+
+Use the following technologies:
+
+### Frontend
+- React.js with Vite.
+- JavaScript, not TypeScript.
+- React Router DOM for navigation.
+- Bootstrap 5 and custom CSS for responsive design.
+- Axios for API communication.
+- React Context API for authentication and global state.
+- React Toastify for notifications.
+- Lucide React or React Icons for icons.
+- Socket.IO Client for real-time seat availability.
+
+### Backend
+- Node.js.
+- Express.js.
+- MongoDB with Mongoose.
+- JSON Web Tokens (JWT) for authentication.
+- bcryptjs for password hashing.
+- dotenv for environment configuration.
+- cors for controlled cross-origin requests.
+- express-validator for request validation.
+- express-rate-limit for API rate limiting.
+- Helmet for HTTP security headers.
+- Socket.IO for real-time seat updates.
+- Multer for optional local poster uploads.
+
+Use a stable, mutually compatible set of dependencies. Prefer currently supported Node.js LTS releases and compatible package versions.
+
+### Database
+Use MongoDB Atlas or a local MongoDB installation. Store all persistent application data in MongoDB. Do not use localStorage as the primary database.
+
+## 3. Project Folder Structure
+
+Create a clean monorepo with separate client and server directories.
+
+imovies/
+  client/
+    public/
+    src/
+      assets/
+      components/
+      layouts/
+      pages/
+        Home.jsx
+        Movies.jsx
+        MovieDetails.jsx
+        Login.jsx
+        Register.jsx
+        SeatSelection.jsx
+        Checkout.jsx
+        BookingSuccess.jsx
+        MyBookings.jsx
+        Profile.jsx
+        Watchlist.jsx
+        NotFound.jsx
+        admin/
+          AdminDashboard.jsx
+          ManageMovies.jsx
+          AddMovie.jsx
+          ManageTheatres.jsx
+          AddTheatre.jsx
+          ManageShows.jsx
+          AddShow.jsx
+          ManageBookings.jsx
+          ManageUsers.jsx
+          ManageReviews.jsx
+          Reports.jsx
+      context/
+      hooks/
+      services/
+      utils/
+      App.jsx
+      main.jsx
+      index.css
+    .env.example
+    package.json
+  server/
+    config/
+    controllers/
+    middleware/
+    models/
+    routes/
+    services/
+    sockets/
+    utils/
+    tests/
+    server.js
+    package.json
+    .env.example
+  .gitignore
+  README.md
+  LICENSE
+
+You may adjust the structure if necessary, but preserve clear separation between frontend, backend, database models, business logic, and routes.
+
+Create every required file with complete working code. Do not leave empty files, unfinished placeholders, or TODO comments for essential functionality.
+
+## 4. Visual Design and User Experience
+
+Use the uploaded screenshots as the design reference.
+
+### Theme
+- Main background: deep navy and dark charcoal.
+- Cards and forms: slightly lighter navy.
+- Primary accent: cinema red or pink.
+- Text: white and light grey.
+- Use subtle borders, rounded corners, shadows, and smooth transitions.
+- Use consistent spacing, typography, and icon styles.
+- Use cinematic movie poster imagery.
+- Provide clear hover, focus, loading, empty, success, and error states.
+
+### Header and Navigation
+Create a responsive header featuring:
+- iMovies brand logo/text.
+- Home.
+- Movies.
+- My Bookings.
+- Watchlist.
+- Profile.
+- Login/Register buttons when signed out.
+- User menu and Logout when signed in.
+- Admin Dashboard link for authorized administrators.
+- Search functionality.
+- Optional theme toggle if implemented consistently.
+
+On mobile, use a working collapsible navigation menu.
+
+### Home Page
+Create an attractive cinema-themed landing page with:
+- Hero banner and featured movie.
+- Short tagline: "Your ultimate destination for the latest blockbusters and timeless classics."
+- Sign In and Sign Up buttons.
+- Now Showing section.
+- Coming Soon section.
+- Popular Movies section.
+- Movie search and genre filters.
+- Movie cards containing poster, title, genre, language, duration, rating, and release date.
+- A Book Tickets button for movies with available shows.
+- A footer with navigation, contact information, and project information.
+
+### Movie Cards
+Create reusable movie cards with:
+- Movie poster.
+- Movie title.
+- Genre and language.
+- Release date and duration.
+- Rating, when available.
+- Favourite/watchlist button.
+- View Details and Book Tickets actions.
+
+Use valid external poster images or locally stored image assets. Provide attractive fallback posters when an image is unavailable. Do not rely on broken image URLs.
+
+### Movie Details
+Display:
+- Large poster or backdrop.
+- Title, description, genre, language, certification, duration, cast, director, and rating.
+- Trailer link or embedded trailer when available.
+- Available theatres.
+- Available dates and showtimes.
+- A Book Tickets button leading to seat selection.
+
+### Login Page
+Match the reference screenshot:
+- Dark navy background.
+- Centered login card.
+- iMovies logo.
+- Email field.
+- Password field.
+- Show/Hide Password checkbox or button.
+- Submit button.
+- Register link.
+- Form validation and clear error messages.
+
+### Registration Page
+Create a matching registration page containing:
+- Username.
+- Email.
+- Phone number, if included in the user schema.
+- Password.
+- Confirm Password.
+- Show/Hide Password.
+- Submit button.
+- Link to Login.
+- Client-side and server-side validation.
+
+Never expose passwords or password hashes in API responses.
+
+## 5. Authentication and Authorization
+
+Implement complete authentication.
+
+### Registration
+- Validate all required fields.
+- Reject invalid email addresses.
+- Enforce a reasonable password policy.
+- Reject duplicate email addresses.
+- Hash passwords using bcryptjs.
+- Create the user in MongoDB.
+- Return a safe user object and authentication token/session.
+
+### Login
+- Authenticate email and password.
+- Return a generic invalid-credentials message for failed login.
+- Issue a JWT with an appropriate expiry.
+- Support secure logout and token/session invalidation as designed.
+- Handle expired or invalid tokens gracefully.
+
+Use HttpOnly, Secure-in-production, SameSite cookies for authentication where practical. Configure credentials and CORS correctly. If bearer tokens are used instead, document the storage and security trade-offs; do not store sensitive secrets in source code.
+
+### Roles
+Support:
+- User.
+- Admin.
+
+Protect frontend routes for user and admin pages, but always enforce authorization on the backend as well.
+
+Never allow public registration to grant the Admin role.
+
+Provide a safe, documented way to create the first administrator, such as a seed script or a one-time setup command using environment variables. Do not hardcode production admin credentials.
+
+## 6. MongoDB Data Models
+
+Implement Mongoose models with appropriate validation, timestamps, references, and indexes.
+
+### User
+Fields:
+- username.
+- email.
+- passwordHash.
+- phone, optional.
+- role: user or admin.
+- avatar, optional.
+- watchlist: movie references.
+- createdAt and updatedAt.
+
+### Movie
+Fields:
+- title.
+- slug, if used.
+- description.
+- genre: array.
+- language.
+- durationMinutes.
+- releaseDate.
+- certification.
+- cast: array.
+- director.
+- posterUrl.
+- backdropUrl, optional.
+- trailerUrl, optional.
+- rating, optional.
+- status: coming-soon, now-showing, or inactive.
+- createdAt and updatedAt.
+
+### Theatre
+Fields:
+- name.
+- location.
+- address.
+- city.
+- screens.
+- contact information, optional.
+- active status.
+- createdAt and updatedAt.
+
+### Show
+Fields:
+- movie reference.
+- theatre reference.
+- screen number.
+- show date.
+- start time or a consistently stored start date-time.
+- ticket pricing by seat category.
+- seat layout.
+- booking status.
+- createdAt and updatedAt.
+
+### Seat / Seat Inventory
+Represent seats consistently for each individual show.
+
+Fields should include:
+- show reference.
+- seat identifier.
+- row and column or equivalent layout information.
+- category: standard, premium, or recliner.
+- price.
+- status: available, locked, or booked.
+- lock expiry.
+- temporary lock owner where required.
+
+Use a unique compound index to prevent duplicate seat records for the same show.
+
+### Booking
+Fields:
+- booking reference.
+- user reference.
+- show reference.
+- movie and theatre references where appropriate.
+- selected seat identifiers.
+- ticket subtotal.
+- taxes and fees, if charged.
+- total amount.
+- booking status: pending, confirmed, cancelled, or failed.
+- payment status.
+- createdAt and updatedAt.
+
+### Payment
+Fields:
+- booking reference.
+- amount.
+- currency.
+- payment method.
+- provider.
+- provider transaction reference, when available.
+- status: pending, successful, failed, or refunded.
+- timestamps.
+
+Never store raw card numbers, CVVs, or payment secrets.
+
+### Review
+Fields:
+- user reference.
+- movie reference.
+- rating from 1 to 5.
+- comment.
+- moderation status.
+- timestamps.
+
+Prevent duplicate reviews for the same user and movie if that is the chosen business rule.
+
+### Notification
+Fields:
+- user reference.
+- title.
+- message.
+- type.
+- read status.
+- timestamps.
+
+## 7. Movie Discovery and Search
+
+Implement:
+- Search by movie title.
+- Filter by genre.
+- Filter by language.
+- Filter by city or theatre location.
+- Filter by date.
+- Filter by rating where data is available.
+- Sort by title, release date, and rating where applicable.
+- Pagination for large movie lists.
+- Clear all filters.
+- Loading, error, and empty results states.
+
+All filters must work with actual database data, not just change the appearance of the interface.
+
+## 8. Theatre and Show Management
+
+Administrators must be able to:
+
+### Theatre Management
+- Add a theatre.
+- View all theatres.
+- Edit theatre details.
+- Activate or deactivate a theatre.
+- Configure screen count and seat layouts.
+- Delete a theatre only when business rules permit it.
+
+### Show Management
+- Create a show for an existing movie and theatre.
+- Choose screen, date, time, and ticket prices.
+- Validate the schedule.
+- Prevent conflicting shows on the same screen.
+- Reject invalid dates and prices.
+- View, edit, and cancel upcoming shows.
+- Prevent deletion or modification that would invalidate confirmed bookings without an explicit policy.
+
+### Movie Management
+- Add movies.
+- Edit movie information.
+- Delete or deactivate movies.
+- Upload a poster or provide a poster URL.
+- Manage release date, genre, cast, language, description, duration, certification, and trailer.
+- View all movies with search, filtering, and pagination.
+
+Forms must have labels, validation, loading indicators, and success/error messages.
+
+## 9. Seat Selection and Real-Time Availability
+
+Build an interactive cinema seating layout.
+
+Requirements:
+- Display rows and numbered seats.
+- Visually distinguish available, selected, temporarily locked, and booked seats.
+- Display a legend.
+- Show the selected seat count and total price.
+- Permit multiple seats to be selected within a reasonable limit.
+- Prevent selection of unavailable seats.
+- Allow users to remove selected seats before checkout.
+- Refresh availability when another user books seats.
+- Use Socket.IO for real-time availability updates.
+
+### Correct Booking Concurrency
+
+Do not rely only on frontend checks.
+
+Implement server-side seat locking:
+1. User requests seats for a particular show.
+2. Backend verifies that the seats exist and are available.
+3. Backend atomically locks the seats for a short period.
+4. Backend returns the lock expiry and booking/session reference.
+5. Other users cannot lock the same seats while the lock is active.
+6. The backend releases expired locks.
+7. Successful booking confirms the seats.
+8. Failed or abandoned checkout releases locks.
+9. Emit Socket.IO events so connected clients update their seat maps.
+
+Use MongoDB atomic updates and transactions when supported by the configured MongoDB deployment. Provide safe behavior when transactions are unavailable. Use a consistent strategy for lock expiration and recovery.
+
+Never trust seat prices or booking totals sent by the browser. Calculate them on the server.
+
+## 10. Checkout and Payments
+
+Implement a complete checkout workflow.
+
+### Demo Payment Mode
+For local development and college demonstration, provide a clearly labelled simulated payment mode.
+
+The simulated payment flow must:
+- Clearly state that it is a demonstration and no real money is transferred.
+- Support a successful test payment.
+- Support a failed test payment.
+- Update booking and payment statuses consistently.
+- Confirm seats only after successful simulated payment.
+- Release seat locks after failure or cancellation.
+- Prevent duplicate payment processing and duplicate booking confirmation.
+
+### Real Payment Gateway
+Keep payment integration modular so Razorpay or Stripe can be configured later.
+
+If a real gateway is configured:
+- Use only official SDKs and server-side payment verification.
+- Keep secret keys in environment variables.
+- Verify payment signatures or webhook authenticity.
+- Never trust a success response from the browser alone.
+- Make webhook and confirmation handlers idempotent.
+
+Do not claim that a real payment gateway is integrated if the necessary credentials and configuration have not been supplied.
+
+## 11. Booking Management
+
+Implement:
+- Booking confirmation page.
+- Unique booking reference.
+- Movie, theatre, screen, date, time, seats, and total amount.
+- QR code or scannable ticket identifier where feasible.
+- Printable ticket.
+- My Bookings page.
+- Upcoming and past bookings.
+- Booking details page.
+- Cancellation according to an explicit configurable policy.
+- Booking status tracking.
+- Payment status tracking.
+- Booking history pagination.
+
+Only authenticated users may access their own bookings. Admin access must be controlled by role-based permissions.
+
+Cancellation must update the booking, seat inventory, and any payment/refund records consistently. Do not claim a refund has been issued unless the configured payment provider confirms it.
+
+## 12. User Profile, Watchlist, Reviews, and Notifications
+
+Implement:
+- View and update profile.
+- Change password securely.
+- Add/remove movies from watchlist.
+- Submit movie ratings and reviews.
+- Edit or delete one's own review according to policy.
+- View booking-related notifications.
+- Mark notifications as read.
+
+Validate and authorize every operation on the server.
+
+If email or SMS delivery is not configured, display in-app notifications and clearly document the optional integration. Do not pretend an email or SMS was sent.
+
+## 13. Admin Dashboard
+
+Create a professional dashboard consistent with the uploaded screenshots.
+
+Include:
+- Summary cards for total users, movies, theatres, upcoming shows, bookings, and revenue.
+- Recent bookings.
+- Upcoming shows.
+- Popular movies.
+- Booking and revenue charts, when suitable data is available.
+- Movie management.
+- Theatre management.
+- Show management.
+- Booking management.
+- User management.
+- Review moderation.
+- Payment history.
+- Reports and filtering by date.
+
+Use real aggregated MongoDB data. Do not use fabricated dashboard totals once the backend is connected.
+
+Admins must not be able to promote arbitrary users to admin without a specifically authorized operation.
+
+## 14. REST API Design
+
+Create well-organized Express routes, controllers, services, models, and middleware.
+
+Implement endpoints equivalent to:
+
+Authentication:
+- POST /api/auth/register
+- POST /api/auth/login
+- POST /api/auth/logout
+- GET /api/auth/me
+
+Movies:
+- GET /api/movies
+- GET /api/movies/:id
+- POST /api/movies
+- PUT /api/movies/:id
+- DELETE /api/movies/:id
+
+Theatres:
+- GET /api/theatres
+- GET /api/theatres/:id
+- POST /api/theatres
+- PUT /api/theatres/:id
+- DELETE /api/theatres/:id
+
+Shows:
+- GET /api/shows
+- GET /api/shows/:id
+- POST /api/shows
+- PUT /api/shows/:id
+- DELETE /api/shows/:id
+
+Seats:
+- GET /api/shows/:id/seats
+- POST /api/shows/:id/lock-seats
+- DELETE /api/shows/:id/lock-seats
+
+Bookings:
+- POST /api/bookings
+- GET /api/bookings/my
+- GET /api/bookings/:id
+- POST /api/bookings/:id/cancel
+
+Payments:
+- POST /api/payments/create
+- POST /api/payments/demo
+- POST /api/payments/verify
+
+Watchlist:
+- GET /api/users/watchlist
+- POST /api/users/watchlist/:movieId
+- DELETE /api/users/watchlist/:movieId
+
+Reviews:
+- GET /api/movies/:id/reviews
+- POST /api/movies/:id/reviews
+- PUT /api/reviews/:id
+- DELETE /api/reviews/:id
+
+Admin:
+- GET /api/admin/dashboard
+- GET /api/admin/users
+- GET /api/admin/bookings
+- GET /api/admin/payments
+- GET /api/admin/reports
+
+Notifications:
+- GET /api/notifications
+- PATCH /api/notifications/:id/read
+
+Adjust endpoint names if needed, but provide equivalent functionality.
+
+Apply authentication and role-based middleware where appropriate. Validate request parameters, query strings, and bodies. Use correct HTTP status codes and a consistent JSON response structure.
+
+Implement pagination, filtering, safe error handling, and API documentation. Do not expose stack traces or secrets in production responses.
+
+## 15. Architecture and Code Quality
+
+Follow MVC principles:
+- Models handle database schemas and data operations.
+- Controllers handle HTTP request/response logic.
+- Services contain reusable business logic.
+- Routes define API endpoints.
+- Middleware handles authentication, authorization, validation, rate limiting, and error handling.
+
+Requirements:
+- Reusable React components.
+- Shared API client with configured base URL.
+- Centralized authentication state.
+- Protected and role-protected routes.
+- Consistent naming and formatting.
+- No duplicated booking business logic.
+- No secrets committed to Git.
+- No unnecessary dependencies.
+- No dead links or nonfunctional buttons.
+- No hardcoded fake authentication.
+- No fake booking success without backend confirmation.
+- No placeholder API responses presented as real data.
+
+## 16. Security and Reliability
+
+Implement:
+- Password hashing.
+- JWT verification.
+- Role-based authorization.
+- Input validation and sanitization.
+- Rate limiting on authentication endpoints.
+- Helmet security headers.
+- CORS restricted to configured origins.
+- Safe cookie settings when cookies are used.
+- Protection against NoSQL injection and unsafe query construction.
+- Request size limits.
+- Centralized error handling.
+- Safe logging without passwords, tokens, or sensitive payment data.
+- Ownership checks for bookings, reviews, and profile updates.
+- Environment variable validation.
+- Appropriate database indexes.
+- Graceful server shutdown.
+- A health endpoint such as GET /api/health.
+
+Do not store secrets in source code or expose them through the frontend environment.
+
+## 17. Seed Data and Demo Experience
+
+Provide a seed script to populate the database with:
+- At least 10 sample movies.
+- Several sample theatres.
+- Multiple screens and showtimes.
+- A suitable seat layout for each show.
+- Sample movie genres, languages, release dates, descriptions, and poster URLs.
+
+Use the movie names shown in the uploaded screenshots when suitable, including titles such as RRR, Baahubali 2: The Conclusion, OG, Rajasaab, Toxic, Avatar, and Chhaava, while ensuring all seeded information is appropriate and clearly identified as demonstration data where needed.
+
+Use valid image sources or reliable fallbacks. Do not make the entire app dependent on an external image service.
+
+Provide a seed script and instructions for creating an administrator through environment configuration. Do not insert a universal default production password.
+
+## 18. Testing
+
+Include meaningful automated tests for critical workflows.
+
+Backend tests should cover:
+- Registration and duplicate account handling.
+- Login and invalid credentials.
+- Protected routes.
+- Admin authorization.
+- Movie CRUD.
+- Theatre and show validation.
+- Seat locking and conflict prevention.
+- Booking creation.
+- Payment success and failure.
+- Booking cancellation.
+- User ownership checks.
+
+Use a suitable testing stack, such as Vitest for frontend tests and Jest or Vitest with Supertest for backend API tests.
+
+Add frontend tests for key form validation and booking interactions where practical.
+
+Provide npm scripts for starting, building, linting, and testing the application. Do not claim tests pass unless they have actually been run successfully.
+
+## 19. Environment Configuration
+
+Create server/.env.example containing the necessary variable names, for example:
+
+PORT=8000
+NODE_ENV=development
+MONGO_URI=mongodb://127.0.0.1:27017/imovies
+JWT_SECRET=replace_with_a_long_random_secret
+CLIENT_URL=http://localhost:5173
+COOKIE_NAME=imovies_token
+DEMO_PAYMENTS_ENABLED=true
+ADMIN_EMAIL=admin@example.com
+ADMIN_PASSWORD=replace_with_a_strong_password
+
+Add other environment variables only when required by implemented features.
+
+Create client/.env.example with the public API base URL, for example:
+
+VITE_API_URL=http://localhost:8000/api
+
+Never commit actual secrets. Explain how to create local .env files from these examples.
+
+## 20. Project Setup and Execution
+
+The finished project must be easy for a college student to run.
+
+Provide:
+- Root-level README.md.
+- Complete installation instructions.
+- Prerequisites.
+- MongoDB Atlas and local MongoDB configuration.
+- Environment variable setup.
+- Dependency installation.
+- Database seeding instructions.
+- Admin account setup.
+- Frontend and backend startup commands.
+- Test commands.
+- Production build commands.
+- Troubleshooting for common errors.
+- Instructions for deploying the frontend and backend separately.
+
+Prefer simple commands. If useful, configure root npm scripts to install dependencies, run both development servers concurrently, seed the database, and run tests.
+
+The expected local development addresses should be:
+- Frontend: http://localhost:5173
+- Backend: http://localhost:8000
+- API health endpoint: http://localhost:8000/api/health
+
+Ensure the actual application configuration matches these addresses.
+
+## 21. GitHub Readiness
+
+Prepare the project for direct GitHub upload.
+
+Include:
+- A comprehensive README.md with project description, features, architecture, tech stack, installation instructions, API overview, environment variables, database models, testing, screenshots section, and deployment instructions.
+- A useful .gitignore excluding node_modules, .env files, build artifacts, coverage output, logs, and uploaded private files.
+- A LICENSE file, such as MIT, if appropriate.
+- Clear commit-friendly folder organization.
+- No credentials, personal information, generated secrets, or database dumps.
+- No absolute paths tied to the developer's computer.
+- No references to unavailable local resources.
+- No fabricated deployment URLs or GitHub repository URLs.
+
+In the README, include these editable placeholders:
+
+Live Demo: [Add your deployed application URL here]
+
+GitHub Repository: [Add your GitHub repository URL here]
+
+Do not invent these URLs. Explain how to replace them after deploying the application and pushing the repository.
+
+## 22. Deployment
+
+Prepare deployment configuration for:
+- Frontend on Vercel or Netlify.
+- Backend on Render or another compatible Node.js host.
+- Database on MongoDB Atlas.
+
+Configure production API URLs through environment variables. Configure CORS, cookies, and frontend routing for production.
+
+Provide deployment instructions and an example environment variable checklist.
+
+Do not claim the app has been deployed unless deployment has actually occurred. Do not invent a live demo link.
+
+## 23. Required Screens and Acceptance Criteria
+
+The project is complete only when all of the following work:
+
+1. Landing page with responsive movie listings.
+2. Registration and login with persistent backend accounts.
+3. User logout.
+4. Movie search, filters, and movie details.
+5. Theatre and show listings.
+6. Seat selection with server-side availability checks.
+7. Temporary seat locks and conflict prevention.
+8. Demo payment success and failure flows.
+9. Booking confirmation and printable ticket.
+10. User booking history and permitted cancellations.
+11. Watchlist.
+12. Movie reviews and ratings.
+13. Admin dashboard with real database statistics.
+14. Admin movie CRUD.
+15. Admin theatre CRUD.
+16. Admin show management and schedule validation.
+17. Booking, user, payment, and review management for admins.
+18. Real-time seat updates.
+19. Responsive layouts for desktop, tablet, and mobile.
+20. Proper loading, error, empty, and success states.
+21. Automated tests for important workflows.
+22. Complete README and setup instructions.
+23. Correct GitHub-ready repository structure.
+24. No major console errors or failing essential user flows.
+
+## 24. Build and Verification Instructions
+
+Work systematically through the following stages:
+
+Stage 1: Inspect the uploaded screenshots and establish the design system.
+
+Stage 2: Create the complete project structure and install compatible dependencies.
+
+Stage 3: Implement the backend, MongoDB connection, models, authentication, validation, and authorization.
+
+Stage 4: Implement movie, theatre, show, seat, booking, payment, review, watchlist, notification, and admin APIs.
+
+Stage 5: Implement transactional or otherwise concurrency-safe booking logic and real-time seat updates.
+
+Stage 6: Build all React pages and reusable components to match the reference screenshots.
+
+Stage 7: Connect every functional frontend feature to the backend.
+
+Stage 8: Seed sample data and provide safe admin setup.
+
+Stage 9: Run the available tests and production builds. Fix errors rather than hiding them.
+
+Stage 10: Write the README, environment examples, deployment configuration, and GitHub instructions.
+
+Stage 11: Verify the critical user and admin workflows from beginning to end.
+
+Do not stop after generating the landing page. Continue until the complete project is implemented to the extent supported by the environment.
+
+If you encounter execution limits, prioritize delivering complete source files and a runnable core application, then clearly list any remaining incomplete features. Never describe an unimplemented feature as completed.
+
+## 25. Final Deliverables
+
+At the end, provide:
+
+1. The complete source code for client and server.
+2. All required configuration and package files.
+3. MongoDB models and seed scripts.
+4. Working authentication and authorization.
+5. Functional user and admin interfaces.
+6. Working movie, theatre, show, seat, booking, and demo payment workflows.
+7. Real-time seat availability.
+8. Tests and scripts.
+9. A detailed README.md.
+10. Environment example files.
+11. GitHub upload instructions.
+12. Deployment instructions.
+13. A final checklist of implemented and verified features.
+14. Any remaining limitations, with honest explanations.
+
+The finished result must be a professional, working MERN college project named **iMovies — Movie Ticket Booking Made Simple**, based on the uploaded visual references.
+
+Begin implementation now. Inspect the screenshots first, then create the application files and implement the complete system rather than responding with another project plan.
